@@ -29,11 +29,9 @@ Quick start::
 
 from .stt import WhisperSTT, WhisperSTTError, WhisperSTTUnavailableError
 
-try:
-    from importlib.metadata import version as _v
-    __version__ = _v("autourgos-whisperstt")
-except Exception:
-    __version__ = "0.1.0"
+from autourgos_core import package_version
+
+__version__ = package_version("autourgos-whisperstt", fallback="0.1.2")
 
 __all__ = [
     "WhisperSTT",

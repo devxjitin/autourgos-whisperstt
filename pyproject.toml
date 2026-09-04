@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "autourgos-whisperstt"
-version = "0.1.1"
+version = "0.1.2"
 description = "Local, offline speech-to-text for the Autourgos framework using faster-whisper -- no API key, no per-call network cost, cross-platform."
 readme = "README.md"
 license = { file = "LICENSE" }
@@ -34,7 +34,7 @@ classifiers = [
     "Typing :: Typed",
 ]
 dependencies = [
-    "autourgos-core>=0.2.0",
+    "autourgos-core>=0.3.0",
 ]
 
 [project.optional-dependencies]
