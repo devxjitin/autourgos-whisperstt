@@ -27,6 +27,8 @@ import tempfile
 import wave
 from typing import Any, Optional, Tuple
 
+from autourgos_core import require_available, try_import
+
 
 class WhisperSTTError(Exception):
     """Base error for autourgos-whisperstt."""
@@ -38,11 +40,10 @@ class WhisperSTTUnavailableError(WhisperSTTError):
 
 def _load_faster_whisper() -> Tuple[bool, Any, Optional[str]]:
     """Try to import faster_whisper. Returns (available, WhisperModel class, error)."""
-    try:
-        from faster_whisper import WhisperModel
-        return True, WhisperModel, None
-    except ImportError as exc:
-        return False, None, str(exc)
+    available, modules, error = try_import("faster_whisper")
+    if not available:
+        return False, None, error
+    return True, modules["faster_whisper"].WhisperModel, None
 
 
 class WhisperSTT:
@@ -93,11 +94,12 @@ class WhisperSTT:
         self._model: Any = None
 
     def _require_available(self) -> None:
-        if not self._available:
-            raise WhisperSTTUnavailableError(
-                "The 'faster-whisper' package is required "
-                f"(pip install autourgos-whisperstt[whisper]). Import error: {self._import_error}"
-            )
+        require_available(
+            self._available,
+            "The 'faster-whisper' package is required "
+            f"(pip install autourgos-whisperstt[whisper]). Import error: {self._import_error}",
+            WhisperSTTUnavailableError,
+        )
 
     def _get_model(self) -> Any:
         if self._model is None:
