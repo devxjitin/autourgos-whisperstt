@@ -1,0 +1,60 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "autourgos-whisperstt"
+version = "0.1.0"
+description = "Local, offline speech-to-text for the Autourgos framework using faster-whisper -- no API key, no per-call network cost, cross-platform."
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.10"
+authors = [
+    { name = "Jitin Kumar Sengar", email = "devxjitin@gmail.com" },
+]
+maintainers = [
+    {name = "Sonia"},
+    {name = "Vishwanil Suman"},
+]
+keywords = [
+    "autourgos", "speech-to-text", "stt", "whisper", "faster-whisper",
+    "voice", "speech", "offline", "llm", "ai", "agent",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Typing :: Typed",
+]
+dependencies = []
+
+[project.optional-dependencies]
+whisper = [
+    "faster-whisper>=1.0.0",
+]
+dev = [
+    "pytest>=7.0",
+    "pytest-asyncio>=0.21",
+    "faster-whisper>=1.0.0",
+    "build",
+    "twine",
+]
+
+[project.urls]
+Homepage = "https://github.com/devxjitin/autourgos-whisperstt"
+Repository = "https://github.com/devxjitin/autourgos-whisperstt"
+Issues = "https://github.com/devxjitin/autourgos-whisperstt/issues"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["autourgos_whisperstt*"]
+
+[tool.setuptools.package-data]
+autourgos_whisperstt = ["py.typed"]
