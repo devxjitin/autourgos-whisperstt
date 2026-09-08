@@ -22,12 +22,9 @@ than autourgos-windowstt's SAPI-based recognition of the identical audio
 
 from __future__ import annotations
 
-import os
-import tempfile
-import wave
 from typing import Any, Optional, Tuple
 
-from autourgos_core import require_available, try_import
+from autourgos_core import require_available, temp_wav_file, try_import
 
 
 class WhisperSTTError(Exception):
@@ -131,22 +128,9 @@ class WhisperSTT:
         self._require_available()
         model = self._get_model()
 
-        fd, wav_path = tempfile.mkstemp(suffix=".wav")
-        os.close(fd)
-        try:
-            with wave.open(wav_path, "wb") as w:
-                w.setnchannels(channels)
-                w.setsampwidth(2)  # 16-bit PCM
-                w.setframerate(sample_rate)
-                w.writeframes(pcm_bytes)
-
+        with temp_wav_file(pcm_bytes, sample_rate=sample_rate, channels=channels) as wav_path:
             segments, _info = model.transcribe(wav_path, language=language or self.language)
             return " ".join(seg.text.strip() for seg in segments).strip()
-        finally:
-            try:
-                os.remove(wav_path)
-            except OSError:
-                pass
 
     async def atranscribe(
         self,
